@@ -1,5 +1,6 @@
 import peca
 
+
 class Cavalo(peca.Peca):
     def __init__(self, posicao_origem_x, posicao_origem_y):
         if ((posicao_origem_x == 1 or posicao_origem_x == 6) and (posicao_origem_y == 0 or posicao_origem_y == 7)):

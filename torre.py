@@ -5,6 +5,10 @@ class Torre(peca.Peca):
        #Fazer verificação da posicao_de_origem
        if(posicao_origem_x==0 and posicao_origem_y==7) or (posicao_origem_x==0 or posicao_origem_y == 0) :
          super().__init__(posicao_origem_x, posicao_origem_y)
+       elif(posicao_origem_x==7 and posicao_origem_y==0) or (posicao_origem_x==7 and posicao_origem_y==7):
+           super().__init__(posicao_origem_x, posicao_origem_y)
+       else:
+           super().__init__(0,0)
 
 
    def validar(self, posicao_x, posicao_y):

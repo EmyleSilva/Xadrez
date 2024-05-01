@@ -19,6 +19,10 @@ class Peca:
     @property
     def posicao_atual_x(self):
         return self._posicao_atual_x
+    
+    @property
+    def posicao_atual_y(self):
+        return self._posicao_atual_y
 
     @property
     def cor(self):

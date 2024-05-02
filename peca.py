@@ -1,21 +1,11 @@
 class Peca:
     def __init__(self, posicao_origem_x, posicao_origem_y, cor):
-        self._posicao_origem_x = posicao_origem_x
-        self._posicao_origem_y = posicao_origem_y
         self._posicao_atual_x = posicao_origem_x
         self._posicao_atual_y = posicao_origem_y
         self._cor = cor
         # O estado indica se a peça ainda está no tabuleiro (True) ou se foi capturada (False)
         self._estado = True
-
-    @property
-    def posicao_origem_x(self):
-        return self._posicao_origem_x
-
-    @property
-    def posicao_origem_y(self):
-        return self._posicao_origem_y
-
+        
     @property
     def posicao_atual_x(self):
         return self._posicao_atual_x

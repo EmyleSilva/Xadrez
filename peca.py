@@ -16,6 +16,14 @@ class Peca:
     @property
     def posicao_atual_y(self):
         return self._posicao_atual_y
+    
+    @property
+    def posicao_origem_x(self):
+        return self._posicao_origem_x
+    
+    @property
+    def posicao_origem_y(self):
+        return self._posicao_origem_y
 
     @property
     def cor(self):

@@ -1,5 +1,7 @@
 import bispo
-
+import cavalo
+import torre
+import emoji
 
 class Tabuleiro:
     def __init__(self):
@@ -21,6 +23,8 @@ class Tabuleiro:
             indice = len(self._cavalo)
             self._cavalo.append(cavalo)
             self._cavalo[-1].indice = indice
+            self._matrizPosicao[cavalo.posicao_atual_x][cavalo.posicao_atual_y] = cavalo
+
 
     @property
     def torre(self):
@@ -34,6 +38,8 @@ class Tabuleiro:
             indice = len(self._torre)
             self._torre.append(torre)
             self._torre[-1].indice = indice
+            self._matrizPosicao[torre.posicao_atual_x][torre.posicao_atual_y] = torre
+
 
     @property
     def bispo(self):
@@ -73,6 +79,7 @@ class Tabuleiro:
         if self._cavalo[indice].movimentar(destino_x, destino_y):
             if self.validar_movimentacao(destino_x, destino_y, self._cavalo[indice]):
                 self._matrizPosicao[destino_x][destino_y] = self._cavalo[indice]
+                self._matrizPosicao[self._cavalo[indice].posicao_origem_x][self._cavalo[indice].posicao_origem_y] = 0
         else:
             # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
             print("Movimento inválido!")
@@ -82,18 +89,44 @@ class Tabuleiro:
         if self._torre[indice].movimentar(destino_x, destino_y):
             if self.validar_movimentacao(destino_x, destino_y, self._torre[indice]):
                 self._matrizPosicao[destino_x][destino_y] = self._torre[indice]
+                self._matrizPosicao[self._torre[indice].posicao_origem_x][self._torre[indice].posicao_origem_y] = 0
         else:
             # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
             print("Movimento inválido!")
             self.torre[indice].desfazer_movimento()
 
     def imprimir_tabuleiro(self):
-        i = 1
+        i = 0
+        j = 0
         for linha in self._matrizPosicao:
+            j = 0
+            k = 0
             i += 1
             print(f"{i}", end=" | ")
             for elemento in linha:
-                print(f"{elemento} | ", end=" ")
+                if elemento == 0:
+                    print("\U000025FD", end=" ")
+                elif(elemento != 0 and elemento.estado == False):
+                    print("\U000025FD", end=" | ")
+                
+                else:
+                    if isinstance(elemento, cavalo.Cavalo):
+                        if elemento.cor == "Branco":
+                            print("\U00002658", end=" ")
+                        else:
+                            print("\U0000265E", end=" ")
+                    elif isinstance(elemento, bispo.Bispo):
+                        if elemento.cor == "Branco":
+                            print("\U00002657", end=" |")
+                        else:
+                            print("\U0000265D", end=" | ")
+                    elif isinstance(elemento, torre.Torre): 
+                        if elemento.cor == "Branco":
+                            print("\U00002656", end=" |")
+                        else:
+                            print("\U0000265C", end=" | ")
+                k+=1
+            j+=1
             print()
 
 
@@ -103,16 +136,26 @@ b3 = bispo.Bispo(0, 3, "Branco")
 b4 = bispo.Bispo(2, 4, "Preto")
 t = Tabuleiro()
 
+t.imprimir_tabuleiro()
+
 t.bispo = b
 t.bispo = b2
-t.bispo = b3
-t.bispo = b4
+t.imprimir_tabuleiro()
+print("")
 
-print(b.indice)
-print(b2.indice)
-print(b3.indice)
-print(b4.indice)
+t1 = torre.Torre(1,2,"Branco")
+t.torre = t1
+t2 = torre.Torre(2,3,"Preto")
+t.torre = t2
+t.imprimir_tabuleiro()
+c = cavalo.Cavalo(3,2, "Preto")
+t.cavalo = c
 
+t.movimentar_torre(2, 6, t2.indice)
+t.movimentar_cavalo(3,1, c.indice)
+
+t.bispo = b
+t.imprimir_tabuleiro()
 print("Posicao atual bispo 1: ", b.posicao_atual_x, b.posicao_atual_y)
 t.movimentar_bispo(1, 1, b.indice)
 print("Posicao atual bispo 1: ", b.posicao_atual_x, b.posicao_atual_y)

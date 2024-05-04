@@ -1,7 +1,7 @@
 import bispo
 import cavalo
 import torre
-import emoji
+
 
 class Tabuleiro:
     def __init__(self):
@@ -69,7 +69,7 @@ class Tabuleiro:
             if self.validar_movimentacao(destino_x, destino_y, self._bispo[indice]):
                 self._matrizPosicao[destino_x][destino_y] = self._bispo[indice]
                 self._matrizPosicao[self._bispo[indice].posicao_origem_x][self._bispo[indice].posicao_origem_y] = 0
-                return
+            return
         # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
         print("Movimento inválido!")
         self.bispo[indice].desfazer_movimento()
@@ -79,8 +79,8 @@ class Tabuleiro:
             if self.validar_movimentacao(destino_x, destino_y, self._cavalo[indice]):
                 self._matrizPosicao[destino_x][destino_y] = self._cavalo[indice]
                 self._matrizPosicao[self._cavalo[indice].posicao_origem_x][self._cavalo[indice].posicao_origem_y] = 0
-                return
-            
+            return
+
         # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
         print("Movimento inválido!")
         self.cavalo[indice].desfazer_movimento()
@@ -90,12 +90,12 @@ class Tabuleiro:
             if self.validar_movimentacao(destino_x, destino_y, self._torre[indice]):
                 self._matrizPosicao[destino_x][destino_y] = self._torre[indice]
                 self._matrizPosicao[self._torre[indice].posicao_origem_x][self._torre[indice].posicao_origem_y] = 0
-                return
+            return
             # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
         print("Movimento inválido!")
         self.torre[indice].desfazer_movimento()
 
-    def verificaTipo(self, elemento):
+    def verifica_tipo(self, elemento):
         if elemento == 0:
             return " \U000025FD "
         else:
@@ -109,7 +109,7 @@ class Tabuleiro:
                     return " \U00002657  "
                 else:
                     return " \U0000265D  "
-            elif isinstance(elemento, torre.Torre): 
+            elif isinstance(elemento, torre.Torre):
                 if elemento.cor == "Branco":
                     return " \U00002656  "
                 else:
@@ -117,14 +117,14 @@ class Tabuleiro:
 
     def capturados(self, cor):
         for i in range(len(self._bispo)):
-            if self._bispo[i].estado == False and self._bispo[i].cor == cor:
-                print(f"{self.verificaTipo(self._bispo[i])}", end="")
+            if self._bispo[i].estado is False and self._bispo[i].cor == cor:
+                print(f"{self.verifica_tipo(self._bispo[i])}", end="")
         for i in range(len(self._torre)):
-            if self._torre[i].estado == False and self._torre[i].cor == cor:
-                print(f"{self.verificaTipo(self._torre[i])}", end="")
+            if self._torre[i].estado is False and self._torre[i].cor == cor:
+                print(f"{self.verifica_tipo(self._torre[i])}", end="")
         for i in range(len(self._cavalo)):
-            if self._cavalo[i].estado == False and self._cavalo[i].cor == cor:
-                print(f"{self.verificaTipo(self._cavalo[i])}", end="")
+            if self._cavalo[i].estado is False and self._cavalo[i].cor == cor:
+                print(f"{self.verifica_tipo(self._cavalo[i])}", end="")
         print()
 
     def imprimir_tabuleiro(self):
@@ -133,32 +133,9 @@ class Tabuleiro:
         for linha in self._matrizPosicao:
             i += 1
             print(f"{i}", end=" | ")
-            for elemento in linha: 
-                print(f"{self.verificaTipo(elemento)}", end=" |")
+            for elemento in linha:
+                print(f"{self.verifica_tipo(elemento)}", end=" |")
             print()
-        
+
         self.capturados("Branco")
         print()
-
-
-b = bispo.Bispo(0, 0, "Branco")
-b2 = bispo.Bispo(2, 4, "Branco")
-b3 = bispo.Bispo(0, 3, "Branco")
-b4 = bispo.Bispo(5, 5, "Preto")
-t = Tabuleiro()
-
-t.bispo = b
-t.bispo = b2
-t.bispo = b3
-t.bispo = b4
-
-t1 = torre.Torre(1,2,"Branco")
-t.torre = t1
-t2 = torre.Torre(2,3,"Preto")
-t.torre = t2
-
-c = cavalo.Cavalo(3,2, "Preto")
-t.cavalo = c
-
-t.movimentar_torre(2, 6, t2.indice)
-t.imprimir_tabuleiro()

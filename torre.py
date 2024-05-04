@@ -17,6 +17,8 @@ class Torre(peca.Peca):
     def movimentar(self, destino_x, destino_y):
 
         if self.validar(destino_x, destino_y):
+            self._posicao_origem_x = self._posicao_atual_x
+            self._posicao_origem_y = self._posicao_atual_y
             self._posicao_atual_x = destino_x
             self._posicao_atual_y = destino_y
             return True

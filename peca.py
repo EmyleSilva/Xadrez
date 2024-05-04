@@ -25,12 +25,8 @@ class Peca:
     def estado(self):
         return self._estado
 
-    @estado.setter
-    def estado(self, estado):
-        if estado is True or estado is False:
-            self._estado = estado
-        else:
-            raise ValueError(" O estado da peça deve ser 'True' ou 'False' ")
+    def mudar_estado(self):
+        self._estado = False
 
     @property
     def indice(self):
@@ -51,3 +47,7 @@ class Peca:
             self._posicao_atual_y = destino_y
             return True
         return False
+
+    def desfazer_movimento(self):
+        self._posicao_atual_x = self._posicao_origem_x
+        self._posicao_atual_y = self._posicao_origem_y

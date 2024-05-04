@@ -1,5 +1,6 @@
 import bispo
 
+
 class Tabuleiro:
     def __init__(self):
         # Inicializa a matriz de posição com None (ou qualquer valor inicial desejado)
@@ -46,30 +47,45 @@ class Tabuleiro:
             indice = len(self._bispo)
             self._bispo.append(bispo)
             self._bispo[-1].indice = indice
+            self._matrizPosicao[bispo.posicao_atual_x][bispo.posicao_atual_y] = bispo
 
     def validar_movimentacao(self, destino_x, destino_y, peca):
         if self._matrizPosicao[destino_x][destino_y] == 0:
-            print("aqui1")
             return True
         else:
             peca_destino = self._matrizPosicao[destino_x][destino_y]
             if peca_destino.cor == peca.cor:
-                print("DESGRAÇAAAAAAAAAAAAAAAAAAA")
                 return False
             else:
-                print("aqui2")
-                peca_destino.estado = False
+                peca_destino.mudar_estado()
                 return True
 
     def movimentar_bispo(self, destino_x, destino_y, indice):
         if self._bispo[indice].movimentar(destino_x, destino_y):
-            print("Posicao atual bispo 1: ", self._bispo[indice].posicao_atual_x, self._bispo[indice].posicao_atual_y)
             if self.validar_movimentacao(destino_x, destino_y, self._bispo[indice]):
-                print("Entra aqui?")
                 self._matrizPosicao[destino_x][destino_y] = self._bispo[indice]
         else:
             # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
+            print("Movimento inválido!")
             self.bispo[indice].desfazer_movimento()
+
+    def movimentar_cavalo(self, destino_x, destino_y, indice):
+        if self._cavalo[indice].movimentar(destino_x, destino_y):
+            if self.validar_movimentacao(destino_x, destino_y, self._cavalo[indice]):
+                self._matrizPosicao[destino_x][destino_y] = self._cavalo[indice]
+        else:
+            # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
+            print("Movimento inválido!")
+            self.cavalo[indice].desfazer_movimento()
+
+    def movimentar_torre(self, destino_x, destino_y, indice):
+        if self._torre[indice].movimentar(destino_x, destino_y):
+            if self.validar_movimentacao(destino_x, destino_y, self._torre[indice]):
+                self._matrizPosicao[destino_x][destino_y] = self._torre[indice]
+        else:
+            # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
+            print("Movimento inválido!")
+            self.torre[indice].desfazer_movimento()
 
     def imprimir_tabuleiro(self):
         i = 1
@@ -82,7 +98,7 @@ class Tabuleiro:
 
 
 b = bispo.Bispo(0, 0, "Branco")
-b2 = bispo.Bispo(1, 2, "Preto")
+b2 = bispo.Bispo(1, 1, "Branco")
 b3 = bispo.Bispo(0, 3, "Branco")
 b4 = bispo.Bispo(2, 4, "Preto")
 t = Tabuleiro()
@@ -98,5 +114,6 @@ print(b3.indice)
 print(b4.indice)
 
 print("Posicao atual bispo 1: ", b.posicao_atual_x, b.posicao_atual_y)
-t.movimentar_bispo(1, 2, b.indice)
+t.movimentar_bispo(1, 1, b.indice)
 print("Posicao atual bispo 1: ", b.posicao_atual_x, b.posicao_atual_y)
+print(b2.estado)

@@ -7,20 +7,20 @@ class Peca:
         self._cor = cor
         # O estado indica se a peça ainda está no tabuleiro (True) ou se foi capturada (False)
         self._estado = True
-        self._indice = -1
-        
+        self._id = -1
+
     @property
     def posicao_atual_x(self):
         return self._posicao_atual_x
-    
+
     @property
     def posicao_atual_y(self):
         return self._posicao_atual_y
-    
+
     @property
     def posicao_origem_x(self):
         return self._posicao_origem_x
-    
+
     @property
     def posicao_origem_y(self):
         return self._posicao_origem_y
@@ -37,12 +37,12 @@ class Peca:
         self._estado = False
 
     @property
-    def indice(self):
-        return self._indice
+    def id(self):
+        return self._id
 
-    @indice.setter
-    def indice(self, indice):
-        self._indice = indice
+    @id.setter
+    def id(self, id):
+        self._id = id
 
     def validar(self, posicao_x, posicao_y):
         if (posicao_x > 7 or posicao_x < 0) or (posicao_y > 7 or posicao_y < 0):

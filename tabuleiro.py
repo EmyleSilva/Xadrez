@@ -12,6 +12,10 @@ class Tabuleiro:
         self._torre = []
 
     @property
+    def matriz_posicao(self):
+        return self._matrizPosicao
+
+    @property
     def cavalo(self):
         return self._cavalo
 
@@ -22,7 +26,7 @@ class Tabuleiro:
         else:
             indice = len(self._cavalo)
             self._cavalo.append(cavalo)
-            self._cavalo[-1].indice = indice
+            self._cavalo[-1].id = indice
             self._matrizPosicao[cavalo.posicao_atual_x][cavalo.posicao_atual_y] = cavalo
 
     @property
@@ -36,7 +40,7 @@ class Tabuleiro:
         else:
             indice = len(self._torre)
             self._torre.append(torre)
-            self._torre[-1].indice = indice
+            self._torre[-1].id = indice
             self._matrizPosicao[torre.posicao_atual_x][torre.posicao_atual_y] = torre
 
     @property
@@ -50,7 +54,7 @@ class Tabuleiro:
         else:
             indice = len(self._bispo)
             self._bispo.append(bispo)
-            self._bispo[-1].indice = indice
+            self._bispo[-1].id = indice
             self._matrizPosicao[bispo.posicao_atual_x][bispo.posicao_atual_y] = bispo
 
     def validar_movimentacao(self, destino_x, destino_y, peca):

@@ -52,7 +52,7 @@ class Menu:
 
     @classmethod
     def valida_recuperacao(cls, tipo):
-        print(f'Peça inválida! Não é um {tipo} ou não existe peça na posição indicada', end=". ")
+        print(f'Peça inválida! Não existe {tipo} na posição indicada', end=". ")
         print("Informe uma posição válida!")
         posicao_atual_x = int(input("Posição X: ")) - 1
         posicao_atual_y = int(input("Posição Y: ")) - 1
@@ -78,16 +78,19 @@ class Menu:
 
     @classmethod
     def realizar_movimento(cls):
+        if cls.opcao == 4 and len(cls.t.bispo) > 0:
+            tipo = "bispo"
+        elif cls.opcao == 5 and len(cls.t.cavalo) > 0:
+            tipo = "cavalo"
+        elif cls.opcao == 6 and len(cls.t.torre)>0:
+            tipo = "torre"
+        else:
+            print(f"\n\nNão há peça desejada no tabuleiro\n")
+            return
+        
         print("Informe as coordenadas da peça que você deseja movimentar: ")
         atual_x = int(input("Posição X: ")) - 1
         atual_y = int(input("Posição Y: ")) - 1
-
-        if cls.opcao == 4:
-            tipo = "bispo"
-        elif cls.opcao == 5:
-            tipo = "cavalo"
-        else:
-            tipo = "torre"
 
         peca = cls.recuperar_peca(atual_x, atual_y, tipo)
 

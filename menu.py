@@ -82,7 +82,7 @@ class Menu:
             tipo = "bispo"
         elif cls.opcao == 5 and len(cls.t.cavalo) > 0:
             tipo = "cavalo"
-        elif cls.opcao == 6 and len(cls.t.torre)>0:
+        elif cls.opcao == 6 and len(cls.t.torre) > 0:
             tipo = "torre"
         else:
             print(f"\n\nNão há peça desejada no tabuleiro\n")

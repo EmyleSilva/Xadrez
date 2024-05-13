@@ -7,55 +7,22 @@ class Tabuleiro:
     def __init__(self):
         # Inicializa a matriz de posição com None (ou qualquer valor inicial desejado)
         self._matrizPosicao = [[0 for _ in range(8)] for _ in range(8)]
-        self._cavalo = []
-        self._bispo = []
-        self._torre = []
+        self._pecas = []
 
     @property
     def matriz_posicao(self):
         return self._matrizPosicao
 
     @property
-    def cavalo(self):
-        return self._cavalo
+    def pecas(self):
+        return self._pecas
 
-    @cavalo.setter
-    def cavalo(self, cavalo):
-        if len(self._cavalo) > 3:
-            print("Quantidade máxima de cavalos no tabuleiro já foi atingida!")
-        else:
-            indice = len(self._cavalo)
-            self._cavalo.append(cavalo)
-            self._cavalo[-1].id = indice
-            self._matrizPosicao[cavalo.posicao_atual_x][cavalo.posicao_atual_y] = cavalo
-
-    @property
-    def torre(self):
-        return self._torre
-
-    @torre.setter
-    def torre(self, torre):
-        if len(self._torre) > 3:
-            print("Quantidade máxima de torres no tabuleiro já foi atingida!")
-        else:
-            indice = len(self._torre)
-            self._torre.append(torre)
-            self._torre[-1].id = indice
-            self._matrizPosicao[torre.posicao_atual_x][torre.posicao_atual_y] = torre
-
-    @property
-    def bispo(self):
-        return self._bispo
-
-    @bispo.setter
-    def bispo(self, bispo):
-        if len(self._bispo) > 3:
-            print("Quantidade máxima de bispos no tabuleiro já foi atingida!")
-        else:
-            indice = len(self._bispo)
-            self._bispo.append(bispo)
-            self._bispo[-1].id = indice
-            self._matrizPosicao[bispo.posicao_atual_x][bispo.posicao_atual_y] = bispo
+    @pecas.setter
+    def pecas(self, peca):
+        indice = len(self._pecas)
+        self._pecas.append(peca)
+        self._pecas[-1].id = indice
+        self._matrizPosicao[peca.posicao_atual_x][peca.posicao_atual_y] = peca
 
     def validar_movimentacao(self, destino_x, destino_y, peca):
         if self._matrizPosicao[destino_x][destino_y] == 0:
@@ -68,38 +35,18 @@ class Tabuleiro:
                 peca_destino.mudar_estado()
                 return True
 
-    def movimentar_bispo(self, destino_x, destino_y, indice):
-        if self._bispo[indice].movimentar(destino_x, destino_y):
-            if self.validar_movimentacao(destino_x, destino_y, self._bispo[indice]):
-                self._matrizPosicao[destino_x][destino_y] = self._bispo[indice]
-                self._matrizPosicao[self._bispo[indice].posicao_origem_x][self._bispo[indice].posicao_origem_y] = 0
+    def movimentar_peca(self, destino_x, destino_y, indice):
+        if self._pecas[indice].movimentar(destino_x, destino_y):
+            if self.validar_movimentacao(destino_x, destino_y, self._pecas[indice]):
+                self._matrizPosicao[destino_x][destino_y] = self._pecas[indice]
+                self._matrizPosicao[self._pecas[indice].posicao_origem_x][self._pecas[indice].posicao_origem_y] = 0
             return
-        # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
-        print("Movimento inválido!")
-        self.bispo[indice].desfazer_movimento()
+        # Caso o movimento da peça seja válido mas o tabuleiro na posição de destino não é livre
+        print("Movimento Inválido!")
+        self._pecas[indice].desfazer_movimento()
 
-    def movimentar_cavalo(self, destino_x, destino_y, indice):
-        if self._cavalo[indice].movimentar(destino_x, destino_y):
-            if self.validar_movimentacao(destino_x, destino_y, self._cavalo[indice]):
-                self._matrizPosicao[destino_x][destino_y] = self._cavalo[indice]
-                self._matrizPosicao[self._cavalo[indice].posicao_origem_x][self._cavalo[indice].posicao_origem_y] = 0
-            return
-
-        # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
-        print("Movimento inválido!")
-        self.cavalo[indice].desfazer_movimento()
-
-    def movimentar_torre(self, destino_x, destino_y, indice):
-        if self._torre[indice].movimentar(destino_x, destino_y):
-            if self.validar_movimentacao(destino_x, destino_y, self._torre[indice]):
-                self._matrizPosicao[destino_x][destino_y] = self._torre[indice]
-                self._matrizPosicao[self._torre[indice].posicao_origem_x][self._torre[indice].posicao_origem_y] = 0
-            return
-            # Caso o movimento de cavalo seja valido mas o tabuleiro não é livre
-        print("Movimento inválido!")
-        self.torre[indice].desfazer_movimento()
-
-    def verifica_tipo(self, elemento):
+    @staticmethod
+    def verifica_tipo(elemento):
         if elemento == 0:
             return " \U000025FD "
         else:
@@ -120,19 +67,14 @@ class Tabuleiro:
                     return " \U0000265C  "
 
     def capturados(self, cor):
-        for i in range(len(self._bispo)):
-            if self._bispo[i].estado is False and self._bispo[i].cor == cor:
-                print(f"{self.verifica_tipo(self._bispo[i])}", end="")
-        for i in range(len(self._torre)):
-            if self._torre[i].estado is False and self._torre[i].cor == cor:
-                print(f"{self.verifica_tipo(self._torre[i])}", end="")
-        for i in range(len(self._cavalo)):
-            if self._cavalo[i].estado is False and self._cavalo[i].cor == cor:
-                print(f"{self.verifica_tipo(self._cavalo[i])}", end="")
+        for i in range(len(self._pecas)):
+            if self._pecas[i].estado is False and self._pecas[i].cor == cor:
+                print(f"{self.verifica_tipo(self._pecas[i])}", end="")
         print()
 
     def imprimir_tabuleiro(self):
         i = 0
+        print("  |  1   |  2  |  3  |  4  |  5  |  6  |  7   |  8   |")
         self.capturados("Preto")
         for linha in self._matrizPosicao:
             i += 1

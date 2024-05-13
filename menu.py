@@ -21,11 +21,9 @@ class Menu:
         print("1 - Adicionar Bispo.")
         print("2 - Adicionar Cavalo.")
         print("3 - Adicionar Torre.")
-        print("4 - Movimentar Bispo.")
-        print("5 - Movimentar Cavalo.")
-        print("6 - Movimentar Torre.")
-        print("7 - Exibir tabuleiro.")
-        print("8 - Sair")
+        print("4 - Movimentar Peça.")
+        print("5 - Exibir tabuleiro.")
+        print("6 - Sair")
 
     @classmethod
     def adicionar_peca(cls):
@@ -35,11 +33,11 @@ class Menu:
         cor = cls.seleciona_cor(cor)
 
         if cls.opcao == 1:
-            cls.t.bispo = Bispo(posicao_x, posicao_y, cor)
+            cls.t.pecas = Bispo(posicao_x, posicao_y, cor)
         elif cls.opcao == 2:
-            cls.t.cavalo = Cavalo(posicao_x, posicao_y, cor)
+            cls.t.pecas = Cavalo(posicao_x, posicao_y, cor)
         else:
-            cls.t.torre = Torre(posicao_x, posicao_y, cor)
+            cls.t.pecas = Torre(posicao_x, posicao_y, cor)
 
     @classmethod
     def seleciona_cor(cls, cor_numero):
@@ -51,59 +49,30 @@ class Menu:
         return "Branco"
 
     @classmethod
-    def valida_recuperacao(cls, tipo):
-        print(f'Peça inválida! Não existe {tipo} na posição indicada', end=". ")
-        print("Informe uma posição válida!")
-        posicao_atual_x = int(input("Posição X: ")) - 1
-        posicao_atual_y = int(input("Posição Y: ")) - 1
-        return cls.t.matriz_posicao[posicao_atual_x][posicao_atual_y]
-
-    @classmethod
-    def recuperar_peca(cls, posicao_atual_x, posicao_atual_y, tipo):
+    def recuperar_peca(cls, posicao_atual_x, posicao_atual_y):
         peca = cls.t.matriz_posicao[posicao_atual_x][posicao_atual_y]
 
-        if tipo == "bispo":
-            while not isinstance(peca, Bispo):
-                peca = cls.valida_recuperacao(tipo)
-            return peca
-
-        if tipo == "cavalo":
-            while not isinstance(peca, Cavalo):
-                peca = cls.valida_recuperacao(tipo)
-            return peca
-
-        while not isinstance(peca, Torre):
-            peca = cls.valida_recuperacao(tipo)
+        while peca == 0:
+            print("Posição Inválida! Não existe peça na posição indicada", end=". ")
+            print("Informe uma posição válida!")
+            posicao_atual_x = int(input("Posição X: ")) - 1
+            posicao_atual_y = int(input("Posição Y: ")) - 1
+            peca = cls.t.matriz_posicao[posicao_atual_x][posicao_atual_y]
         return peca
 
     @classmethod
     def realizar_movimento(cls):
-        if cls.opcao == 4 and len(cls.t.bispo) > 0:
-            tipo = "bispo"
-        elif cls.opcao == 5 and len(cls.t.cavalo) > 0:
-            tipo = "cavalo"
-        elif cls.opcao == 6 and len(cls.t.torre)>0:
-            tipo = "torre"
-        else:
-            print(f"\n\nNão há peça desejada no tabuleiro\n")
-            return
-        
         print("Informe as coordenadas da peça que você deseja movimentar: ")
         atual_x = int(input("Posição X: ")) - 1
         atual_y = int(input("Posição Y: ")) - 1
 
-        peca = cls.recuperar_peca(atual_x, atual_y, tipo)
+        peca = cls.recuperar_peca(atual_x, atual_y)
 
         print("Mover a peça para: ")
         destino_x = int(input("Destino X: ")) - 1
         destino_y = int(input("Destino Y: ")) - 1
 
-        if isinstance(peca, Bispo):
-            cls.t.movimentar_bispo(destino_x, destino_y, peca.id)
-        elif isinstance(peca, Cavalo):
-            cls.t.movimentar_cavalo(destino_x, destino_y, peca.id)
-        else:
-            cls.t.movimentar_torre(destino_x, destino_y, peca.id)
+        cls.t.movimentar_peca(destino_x, destino_y, peca.id)
 
     @classmethod
     def exibir_tabuleiro(cls):
@@ -113,7 +82,7 @@ class Menu:
 
 
 # Rotina para o jogo
-quantidade_opcoes = 8
+quantidade_opcoes = 6
 
 while Menu.opcao != quantidade_opcoes:
     Menu.exibir_menu()
@@ -122,10 +91,10 @@ while Menu.opcao != quantidade_opcoes:
     if 1 <= Menu.opcao <= 3:
         Menu.adicionar_peca()
         Menu.exibir_tabuleiro()
-    elif 4 <= Menu.opcao <= 6:
+    elif Menu.opcao == 4:
         Menu.realizar_movimento()
         Menu.exibir_tabuleiro()
-    elif Menu.opcao == 7:
+    elif Menu.opcao == 5:
         Menu.exibir_tabuleiro()
     else:
         print("Obrigada por jogar!")

@@ -74,6 +74,7 @@ class Menu:
 
         cls.t.movimentar_peca(destino_x, destino_y, peca.id)
 
+
     @classmethod
     def exibir_tabuleiro(cls):
         print()

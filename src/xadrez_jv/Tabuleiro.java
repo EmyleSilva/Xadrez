@@ -15,6 +15,7 @@ public class Tabuleiro {
 	public Peca getMatrizPosicao(int posicaoX, int posicaoY) {
 		return matrizPosicao[posicaoX][posicaoY];
 	}
+	
 	public ArrayList<Peca> getPecas() {
 		return pecas;
 	}
@@ -63,6 +64,8 @@ public class Tabuleiro {
 	
 	public String verificaTipo(Peca peca)
 	{
+		if (peca == null)
+			return "  ";
 		if (peca instanceof Bispo)
 		{
 			if (peca.cor == "Branco")

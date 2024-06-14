@@ -1,38 +1,17 @@
 package xadrez_jv;
 
 import java.util.Scanner;
+import java.awt.*;
+import javax.swing.*;
 
-public class Iniciar {
+public class Iniciar{
 
 	public static void main(String[] args) {
 		
-		int quantidadeOpcoes = 6;
-		Scanner s = new Scanner(System.in);
-		
-		while (Menu.opcao != 0)
-		{
-			Menu.exibirMenu();
-			Menu.lerOpcao(quantidadeOpcoes);
-			
-			switch(Menu.opcao)
-			{
-				case 1:
-				case 2:
-				case 3:
-					Menu.adicionarPeca();
-					Menu.exibirTabuleiro();
-					break;
-				case 4:
-					Menu.realizarMovimento();
-					Menu.exibirTabuleiro();
-					break;
-				case 5:
-					Menu.exibirTabuleiro();
-					break;
-				default:
-					System.out.println("Obrigada por jogar!");
-					break;
-			}
-		}			
+		JFrame menuInicial = new Menu();
+		menuInicial.setTitle("Xadrez");
+		menuInicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuInicial.setBounds(300, 300, 1440, 1024);
+		menuInicial.setVisible(true);		
 	}
 }

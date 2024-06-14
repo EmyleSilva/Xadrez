@@ -1,13 +1,50 @@
 package xadrez_jv;
 
-import java.util.Scanner;
+import java.awt.*;
+import javax.swing.*;
 
-public class Menu {
+import xadrez_jv.Menu;
+
+public class Menu extends JFrame{
 	public static int opcao = 1;
 	public static Tabuleiro tabuleiro = new Tabuleiro();
-	public static Scanner s = new Scanner(System.in);
+	//public static Scanner s = new Scanner(System.in);
 	
-	public static void lerOpcao(int quantidadeOpcoes)
+	//Atributos da interface gráfica
+	private ImageIcon icon;
+	private JLabel lblimagem;
+	private JButton btnexplicavel;
+	private JButton btnsimulacao;
+	private JPanel cLeftSide;
+	private JPanel cRightSide;
+	
+	Menu()
+	{
+		icon = new ImageIcon(getClass().getResource("/imagens/chess.jpeg"));
+		lblimagem = new JLabel(icon);
+		btnexplicavel = new JButton("Modo Explicável");
+		btnsimulacao = new JButton("Modo Simulação");
+		
+		/*btnexplicavel.setPreferredSize(new Dimension(100, 30));
+		btnsimulacao.setPreferredSize(new Dimension(100, 30));
+		btnexplicavel.setMargin(new Insets(5,5,5,5));
+		btnsimulacao.setMargin(new Insets(5,5,5,5));*/
+		
+		cRightSide = new JPanel();
+		cRightSide.setLayout(new GridLayout(1, 1));
+		cRightSide.add(lblimagem);
+		
+		cLeftSide = new JPanel();
+		cLeftSide.setLayout(new GridLayout(2, 1));
+		cLeftSide.add(btnexplicavel);
+		cLeftSide.add(btnsimulacao);
+		
+		setLayout(new GridLayout(1, 2));
+		add(cLeftSide);
+		add(cRightSide);
+	}
+	
+	/*public static void lerOpcao(int quantidadeOpcoes)
 	{
 		System.out.print("Opção: ");
 		Menu.opcao = s.nextInt();
@@ -45,9 +82,10 @@ public class Menu {
 		
 		Peca peca;
 		
-		if (Menu.opcao == 1)
+		if (Menu.opcao == 1) {
 			peca = new Bispo(posicaoX, posicaoY, cor);
-		else if(Menu.opcao == 2) 
+			System.out.println("BISPO X: " + peca.posicaoAtualX + " BISPO Y: " + peca.posicaoAtualY);
+		}else if(Menu.opcao == 2) 
 			peca = new Cavalo(posicaoX, posicaoY, cor);
 		else
 			peca = new Torre(posicaoX, posicaoY, cor);
@@ -100,5 +138,5 @@ public class Menu {
 		System.out.println();
 		Menu.tabuleiro.imprimirTabuleiro();
 		System.out.println();
-	}
+	}*/
 }

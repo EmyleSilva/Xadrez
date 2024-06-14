@@ -14,7 +14,7 @@ public class Peca {
 	Peca(int posicaoOrigemX, int posicaoOrigemY, int cor)
 	{
 		this.posicaoOrigemX = this.posicaoAtualX = posicaoOrigemX;
-		this.posicaoOrigemX = this.posicaoOrigemY = posicaoOrigemY;
+		this.posicaoOrigemY = this.posicaoAtualY = posicaoOrigemY;
 		this.cor = Peca.colors[cor];
 		this.estado = true;
 		this.id = -1;

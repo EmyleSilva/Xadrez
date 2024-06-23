@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.chess17;
+package xadrez_jv;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -15,12 +15,12 @@ import javax.swing.SwingConstants;
  *
  * @author Maria Clara
  */
-public class ChessFrame extends javax.swing.JFrame {
+public class ChessFrame2 extends javax.swing.JFrame {
 
     /**
      * Creates new form ChessFrame
      */
-    public ChessFrame() {
+    public ChessFrame2() {
         initComponents();
         drawChessBoard();
         PreencheLetras();
@@ -62,7 +62,6 @@ public class ChessFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(214, 217, 224));
         setMinimumSize(new java.awt.Dimension(1024, 768));
-        setPreferredSize(new java.awt.Dimension(1024, 768));
         setResizable(false);
         setSize(new java.awt.Dimension(1024, 768));
 
@@ -70,7 +69,7 @@ public class ChessFrame extends javax.swing.JFrame {
 
         AddBispo.setBackground(new java.awt.Color(204, 204, 204));
         AddBispo.setFont(new java.awt.Font("Perpetua Titling MT", 1, 12)); // NOI18N
-        AddBispo.setText("Adicionar Bispo");
+        AddBispo.setText("eXPLICAR Bispo");
         AddBispo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddBispoActionPerformed(evt);
@@ -82,7 +81,7 @@ public class ChessFrame extends javax.swing.JFrame {
 
         AddTorre.setBackground(new java.awt.Color(204, 204, 204));
         AddTorre.setFont(new java.awt.Font("Perpetua Titling MT", 1, 12)); // NOI18N
-        AddTorre.setText("Adicionar Torre");
+        AddTorre.setText("eXPLICAR  Torre");
         AddTorre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddTorreActionPerformed(evt);
@@ -91,7 +90,7 @@ public class ChessFrame extends javax.swing.JFrame {
 
         AddCavalo.setBackground(new java.awt.Color(204, 204, 204));
         AddCavalo.setFont(new java.awt.Font("Perpetua Titling MT", 1, 12)); // NOI18N
-        AddCavalo.setText("Adicionar Cavalo");
+        AddCavalo.setText("eXPLICAR  Cavalo");
         AddCavalo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddCavaloActionPerformed(evt);
@@ -313,7 +312,6 @@ public class ChessFrame extends javax.swing.JFrame {
         MenuIcon = new ImageIcon(scaledImage);
         Cavalo.setIcon(MenuIcon);
         
-        //originalIcon = new ImageIcon("C:/Users/Maria Clara/Documents/Chess_img/Sair.png"); 
         originalIcon =new ImageIcon(getClass().getResource("/Chess_img/Sair.png"));
         originalImage = originalIcon.getImage();
         scaledImage = originalImage.getScaledInstance(42, 42, Image.SCALE_SMOOTH);  
@@ -350,20 +348,21 @@ public class ChessFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChessFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChessFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChessFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChessFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChessFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChessFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChessFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChessFrame2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ChessFrame().setVisible(true);
+                new ChessFrame2().setVisible(true);
             }
         });
     }

@@ -289,7 +289,9 @@ public class ChessFrame extends javax.swing.JFrame {
     		if (!canMakeMovement)
     		{
     			this.p = t.getMatrizPosicao(row, col);
-    			canMakeMovement = true;
+    			if (this.p == null)
+    				JOptionPane.showMessageDialog(null, "Selecione uma peça para realizar\num movimento!", "ERRO", JOptionPane.ERROR_MESSAGE);
+    			else canMakeMovement = true;
     		}else if (canMakeMovement){
     			if (!t.movimentarPeca(row, col, p.id))
     				JOptionPane.showMessageDialog(null, "Movimento Inválido!", "ERRO", JOptionPane.ERROR_MESSAGE);

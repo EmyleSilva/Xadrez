@@ -6,17 +6,23 @@ package xadrez_jv;
 
 import java.awt.Color;
 import java.awt.Image;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+/** MODO EXPLICAVEL*/
 /**
  *
  * @author Maria Clara
  */
 public class ChessFrame2 extends javax.swing.JFrame {
-
+	private static Tabuleiro t = new Tabuleiro();
     /**
      * Creates new form ChessFrame
      */
@@ -26,7 +32,6 @@ public class ChessFrame2 extends javax.swing.JFrame {
         PreencheLetras();
         PreencheNumeros();
         PreencheMenu();
-
     }
 
     /**
@@ -210,24 +215,150 @@ public class ChessFrame2 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /** @brief Personaliza o textArea da explicação.
+     * @return Um scrollPane com a mensagem a ser exibida.
+     * */
+    private JScrollPane personalizeMessage(Peca p)
+    {
+    	 JTextArea textArea = new JTextArea(5, 30); // 5 linhas, 30 colunas
+         textArea.setText(p.explicacao());
+         textArea.setFont(new java.awt.Font("Perpetua Titling MT", 1, 12));
+         textArea.setWrapStyleWord(true);
+         textArea.setLineWrap(true);
+         textArea.setCaretPosition(0);
+         textArea.setEditable(false);
+         
+         JScrollPane scrollPane = new JScrollPane(textArea);
+         
+         return scrollPane;
+    }
+    
+    /** @brief Usado para capturar a imagem correta a ser usada na simulação do tabueiro
+     * @return O icone correspondente a peça solicitada.
+     * */
+    public ImageIcon genarateChessIcon(Peca p)
+    {
+    	ImageIcon originalIcon;
+    	Image originalImage;
+    	Image scaledImage;
+    	ImageIcon chessIcon;
+    	
+    	if (p instanceof Bispo) {
+	    	originalIcon = new ImageIcon(getClass().getResource("/Chess_img/Bispo.png"));  
+	        originalImage = originalIcon.getImage();
+	        scaledImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);  
+	        chessIcon = new ImageIcon(scaledImage);
+    	}else if (p instanceof Cavalo) {
+    		originalIcon = new ImageIcon(getClass().getResource("/Chess_img/Cavalo.png")); 
+            originalImage = originalIcon.getImage();
+            scaledImage = originalImage.getScaledInstance(26, 42, Image.SCALE_SMOOTH);  
+            chessIcon = new ImageIcon(scaledImage);
+    	}else {
+    		originalIcon = new ImageIcon(getClass().getResource("/Chess_img/Torre.png")); 
+            originalImage = originalIcon.getImage();
+            scaledImage = originalImage.getScaledInstance(26, 42, Image.SCALE_SMOOTH);  
+            chessIcon = new ImageIcon(scaledImage);
+    	}
+    	return chessIcon;
+    }
+    
+    /**
+     * @brief Simula a movimentação de uma peça 
+     * */
+    public void simulateMoviment(Peca p, int[] destinos) {
+    	/** Variaveis declaradas como final para uso dentro do escopo do 'timer'
+    	 * Necessária a implemetação do vetor para que os valores pudessem ser alterados.
+    	 * */
+    	final Timer[] timer = new Timer[1];
+    	final boolean[] contador = {true}; //Usado para saber quando posionar ou movimentar a peça
+    	final int[] indices = {0, 1}; //Indices para o vetor de destinos
+    	
+    	t.limparTabuleiro();
+    	
+        timer[0] = new Timer(1500, e->{
+        	if (contador[0])
+        	{
+        		t.setPeca(p);
+	            drawChessBoard();
+	            contador[0] = false;
+        	}else if (indices[1] <= 5)
+        	{
+        		final boolean isValid = t.movimentarPeca(destinos[indices[0]], destinos[indices[1]], p.id);
+            	indices[0]+=2; 
+            	indices[1]+=2;
+            	
+            	if (isValid)
+                	drawChessBoard();
+                else {
+                	JOptionPane.showMessageDialog(null, "Movimento Inválido!", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+        	}else {
+        		timer[0].stop();
+        	}
+        });
+        
+        timer[0].setInitialDelay(0);
+        timer[0].start();
+    }
+    /** @brief Mostra a explicação e, caso o usuário queira, chama uma função para simular 
+     * uma movimentação de uma peça. 
+     * */
+    
     private void AddBispoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBispoActionPerformed
-        // TODO add your handling code here:
+        Peca p = new Bispo(0, 0, 1);
+        int response;
+        
+        JScrollPane scrollPane = personalizeMessage(p);
+        scrollPane.setPreferredSize(new java.awt.Dimension(350, 150)); // Tamanho preferido da JScrollPane
+
+        response = JOptionPane.showConfirmDialog(null, scrollPane, "Bispo", JOptionPane.OK_CANCEL_OPTION);
+        
+        if (response == JOptionPane.OK_OPTION)
+        {            
+        	int[] destinos = {7, 7, 5, 5, 7, 3};
+            simulateMoviment(p, destinos);
+        }
     }//GEN-LAST:event_AddBispoActionPerformed
 
     private void AddTorreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTorreActionPerformed
-        // TODO add your handling code here:
+       Peca p = new Torre(0, 0, 1);
+       int response;
+       
+       JScrollPane scrollPane = personalizeMessage(p);
+       scrollPane.setPreferredSize(new java.awt.Dimension(350, 150)); // Tamanho preferido da JScrollPane
+
+       response = JOptionPane.showConfirmDialog(null, scrollPane, "Torre", JOptionPane.OK_CANCEL_OPTION);
+       
+       if (response == JOptionPane.OK_OPTION)
+       {            
+    	   int[] destinos = {5, 0, 3, 0, 3, 3};
+           simulateMoviment(p, destinos);
+       }
+    	
     }//GEN-LAST:event_AddTorreActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void AddCavaloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCavaloActionPerformed
-        // TODO add your handling code here:
+    	Peca p = new Cavalo(0, 0, 1);
+        int response;
+        
+        JScrollPane scrollPane = personalizeMessage(p);
+        scrollPane.setPreferredSize(new java.awt.Dimension(350, 150)); // Tamanho preferido da JScrollPane
+
+        response = JOptionPane.showConfirmDialog(null, scrollPane, "Cavalo", JOptionPane.OK_CANCEL_OPTION);
+        
+        if (response == JOptionPane.OK_OPTION)
+        {            
+     	   int[] destinos = {1, 2, 3, 1, 5, 2};
+            simulateMoviment(p, destinos);
+        }
     }//GEN-LAST:event_AddCavaloActionPerformed
 
-    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dispose();
+        ChessFrame3.main(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void drawChessBoard() {
         Tabuleiro.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
         // Adicionar labels vazios para a primeira célula
@@ -240,7 +371,9 @@ public class ChessFrame2 extends javax.swing.JFrame {
                 JLabel cell = new JLabel("", SwingConstants.CENTER);
                 cell.setBorder(BorderFactory.createLineBorder(Color.GRAY));
                 boolean isWhite = (row + col) % 2 == 0;
-                if (isWhite) 
+                if (!t.isEmpty(row, col))
+                	cell.setIcon(genarateChessIcon(t.getMatrizPosicao(row, col)));
+                else if (isWhite) 
                     cell.setBackground(Color.WHITE);
                 else
                     cell.setBackground(Color.BLACK);
@@ -318,19 +451,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
         MenuIcon = new ImageIcon(scaledImage);
         Sair.setIcon(MenuIcon);
     }
-      
-      
-    /*ImageIcon originalIcon = new ImageIcon("C:\Users\Maria Clara\Documents\Chess_img\Bispo.png");  
-    Image originalImage = originalIcon.getImage();
-    Image scaledImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);  
-    ImageIcon BispoIcon = new ImageIcon(scaledImage);
-    label.setIcon(BispoIcon);*/
-      
-      
-      
-      
-      
-    
+
     /**
      * @param args the command line arguments
      */

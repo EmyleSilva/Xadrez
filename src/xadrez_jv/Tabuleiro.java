@@ -45,7 +45,7 @@ public class Tabuleiro {
 		return true;
 	}
 	
-	public void movimentarPeca(int destinoX, int destinoY, int indice)
+	public boolean movimentarPeca(int destinoX, int destinoY, int indice)
 	{
 		Peca peca = this.pecas.get(indice);
 		if (peca.movimentar(destinoX, destinoY))
@@ -55,14 +55,31 @@ public class Tabuleiro {
 				this.matrizPosicao[destinoX][destinoY] = peca;
 				this.matrizPosicao[peca.posicaoOrigemX][peca.posicaoOrigemY] = null;
 			}
-			return;
+			return true;
 		}
 		//Caso o movimento seja válido, mas o tabuleiro na posição de destino não é livre
-		System.out.println("Movimento Inválido!");
 		this.pecas.get(indice).desfazer_movimento();
+		return false;
 	}
 	
-	public String verificaTipo(Peca peca)
+	public boolean isEmpty(int x, int y)
+	{
+		return (this.matrizPosicao[x][y] == null) ? true : false;
+	}
+	
+	public void limparTabuleiro()
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (!isEmpty(i, j)) 
+					this.matrizPosicao[i][j] = null;
+			}
+		}
+	}
+	
+	/*public String verificaTipo(Peca peca)
 	{
 		if (peca == null)
 			return "  ";
@@ -115,10 +132,25 @@ public class Tabuleiro {
 		}
 		capturados("Branco");
 		System.out.println();
-	}
+	}		
 	
-	
-	
-	
+	public static void main(String args[])
+	{
+		Tabuleiro t = new Tabuleiro();
+		Peca b = new Bispo(0,0,0);
+		Peca c = new Cavalo(0, 7, 1);
+		Peca to = new Torre(4, 7, 1);
 		
+		t.setPeca(b); t.setPeca(c); t.setPeca(to);
+		t.imprimirTabuleiro();
+		
+		t.movimentarPeca(7, 7, b.id);
+		t.imprimirTabuleiro();
+		
+		t.movimentarPeca(5, 5, b.id);
+		t.imprimirTabuleiro();
+		
+		t.movimentarPeca(7, 3, b.id);
+		t.imprimirTabuleiro();
+	}*/
 }

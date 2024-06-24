@@ -129,11 +129,13 @@ public class ChessFrame3 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SimulacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimulacaoActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        ChessFrame.main(null);
     }//GEN-LAST:event_SimulacaoActionPerformed
 
     private void ExplicavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExplicavelActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        ChessFrame2.main(null);
     }//GEN-LAST:event_ExplicavelActionPerformed
 
     

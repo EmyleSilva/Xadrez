@@ -10,7 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
+/** MODO SIMULAÇÃO */
 /**
  *
  * @author Maria Clara
@@ -221,7 +221,8 @@ public class ChessFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AddTorreActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        dispose();
+        ChessFrame3.main(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void AddCavaloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCavaloActionPerformed

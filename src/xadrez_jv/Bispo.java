@@ -33,4 +33,15 @@ public class Bispo extends Peca{
 		}
 		return false;
 	}
+	
+	public String explicacao()
+	{
+		String explicacao = "O bispo move-se exclusivamente ao longo das diagonais, "
+				+ "podendo avançar para qualquer casa desocupada em qualquer direção "
+				+ "diagonal (nordeste, noroeste, sudeste e sudoeste). "
+				+ "\n\nATENÇÃO: No jogo convencional, o bispo não pode 'pular' por cima de uma peça no tabuleiro."
+				+ "No modo simulação, ele poderá fazer esse 'pulo' apenas por fins didáticos!"
+				+ "\n\nPara ver um exemplo de movimentação do Bispo, clique em 'OK'";
+		return explicacao;
+	}
 }

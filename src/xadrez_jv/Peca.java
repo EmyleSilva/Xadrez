@@ -1,6 +1,6 @@
 package xadrez_jv;
 
-public class Peca {
+public abstract class Peca implements IExplicavel{
 	private static String[] colors = {"Branco", "Preto"};
 	
 	protected int posicaoOrigemX;
@@ -64,8 +64,8 @@ public class Peca {
 		return true;
 	}
 	
-	public boolean movimentar(int destinoX, int destinoY)
-	{
+	public abstract boolean movimentar(int destinoX, int destinoY);
+	/*{
 		if (validar(destinoX, destinoY))
 		{
 			this.posicaoAtualX = destinoX;
@@ -73,12 +73,11 @@ public class Peca {
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	public void desfazer_movimento()
 	{
 		this.posicaoAtualX = this.posicaoOrigemX;
 		this.posicaoAtualY = this.posicaoOrigemY;
-	}
-	
+	}	
 }

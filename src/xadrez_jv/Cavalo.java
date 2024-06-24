@@ -36,4 +36,16 @@ public class Cavalo extends Peca{
 		}
 		return false;
 	}
+	
+	public String explicacao()
+	{
+		String explicacao = "O cavalo no xadrez se move em formato de ‘L’.\n\n "
+				+ "Ele avança duas casas em uma linha reta (para frente, para trás, "
+				+ "para a esquerda ou para a direita) e depois uma casa para o lado. "
+				+ "Ou seja, ele pode se mover, por exemplo, duas casas para a frente "
+				+ "e uma para a esquerda ou para a direita. \n\nAlém disso, o cavalo "
+				+ "é a única peça que pode pular sobre outras peças no tabuleiro."
+				+ "\n\nPara ver um exemplo de movimentação do Cavalo, clique em 'OK'";
+		return explicacao;
+	}
 }

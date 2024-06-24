@@ -73,15 +73,6 @@ public abstract class Peca implements IExplicavel{
 	}
 	
 	public abstract boolean movimentar(int destinoX, int destinoY);
-	/*{
-		if (validar(destinoX, destinoY))
-		{
-			this.posicaoAtualX = destinoX;
-			this.posicaoAtualY = destinoY;
-			return true;
-		}
-		return false;
-	}*/
 	
 	public void desfazer_movimento()
 	{

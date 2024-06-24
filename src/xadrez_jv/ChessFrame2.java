@@ -14,14 +14,15 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-/** MODO EXPLICAVEL*/
+
 /**
  *
  * @author Maria Clara
  */
 public class ChessFrame2 extends javax.swing.JFrame {
+	/** @brief CLASSE PARA O JOGO NO MODO EXPLICAVEL */
+	
 	private static Tabuleiro t = new Tabuleiro();
     /**
      * Creates new form ChessFrame
@@ -268,7 +269,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
      * */
     public void simulateMovement(Peca p, int[] destinos) {
     	/** Variaveis declaradas como final para uso dentro do escopo do 'timer'
-    	 * Necessária a implemetação do vetor para que os valores pudessem ser alterados.
+    	 * Necessária a implemetação do vetor para que os valores possam ser alterados.
     	 * */
     	final Timer[] timer = new Timer[1];
     	final boolean[] contador = {true}; //Usado para saber quando posionar ou movimentar a peça
@@ -301,10 +302,10 @@ public class ChessFrame2 extends javax.swing.JFrame {
         timer[0].setInitialDelay(0);
         timer[0].start();
     }
+    
     /** @brief Mostra a explicação e, caso o usuário queira, chama uma função para simular 
      * uma movimentação de uma peça. 
      * */
-    
     private void AddBispoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBispoActionPerformed
         Peca p = new Bispo(0, 0, 1);
         int response;
@@ -354,16 +355,15 @@ public class ChessFrame2 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_AddCavaloActionPerformed
 
+    /** @brief Handler do botão para sair do jogo. Retorna para o menu Principal*/
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         dispose();
+        t.limparTabuleiro();
         ChessFrame3.main(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void drawChessBoard() {
         Tabuleiro.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
-        // Adicionar labels vazios para a primeira célula
-      
-       
         // Adicionar linhas do tabuleiro
         for (int row = 0; row < 8; row++) {
            
@@ -385,15 +385,9 @@ public class ChessFrame2 extends javax.swing.JFrame {
        Tabuleiro.repaint();
     }
 
-    
      private void PreencheLetras() {
         Letras.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
-        // Adicionar labels vazios para a primeira célula
-      
-       
         // Adicionar linhas do tabuleiro
-       
-           
               for (char col = 'A'; col <= 'H'; col++) {
                 JLabel cell = new JLabel("", SwingConstants.CENTER);
                 //cell.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -408,12 +402,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
 
       private void PreencheNumeros() {
         Numericas.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
-        // Adicionar labels vazios para a primeira célula
-      
-       
         // Adicionar linhas do tabuleiro
-       
-           
               for (int row = 1; row <= 8; row++) {
                 JLabel cell = new JLabel("", SwingConstants.CENTER);
                 //cell.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -488,9 +477,6 @@ public class ChessFrame2 extends javax.swing.JFrame {
         });
     }
     
-    
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBispo;
     private javax.swing.JButton AddCavalo;

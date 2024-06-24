@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 package xadrez_jv;
 
 import java.awt.Color;
@@ -14,16 +15,19 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-/** MODO SIMULAÇÃO */
+
 /**
  *
  * @author Maria Clara
  */
 public class ChessFrame extends javax.swing.JFrame {
+	/**
+	 * @brief CLASSE PARA O JOGO NO MODO SIMULAÇÃO
+	 * */
+	
 	private static Tabuleiro t = new Tabuleiro();
-	//private JLabel[][] cells = new JLabel[8][8]; // Usado para auxilixar na manipulção de cliques nas casas do tabuleiro
     private boolean controller = false; //Usada na verificação de tipo de clique no tabuleiro (se é adição ou movimentação de peças)
-	private static boolean canMakeMovement = false;
+	private static boolean canMakeMovement = false; //Usada para verificar se é um clique de seleção de peça ou escolha de destino na movimentação
 	private Peca p;
     /**
      * Creates new form ChessFrame
@@ -36,7 +40,6 @@ public class ChessFrame extends javax.swing.JFrame {
         PreencheMenu();
 
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -241,10 +244,16 @@ public class ChessFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         t.limparTabuleiro();
+        t.limparCapturados();
     	dispose();
         ChessFrame3.main(null);
     }//GEN-LAST:event_jButton1ActionPerformed
     
+    /** @brief Mostra uma janela para que o usuário escolha a cor 
+     * da peça que está adicionando no tabuleiro. Além disso também mostra
+     * uma mensagem instruindo o usuário a selecionar a casa onde ele
+     * quer que a peça seja posicionada.
+     * */
     private int selectColorAndShowMessage(String message)
     {
     	String[] colors = {"Branco", "Preto"};
@@ -263,43 +272,35 @@ public class ChessFrame extends javax.swing.JFrame {
         return colorIndex;
     }
     
-    private void cellClickHandller(int row, int col) {
+    /** @brief Handler para cliques nas casas do tabuleiro.
+     * Controla quando a ação é feita para adição de uma nova peça ou
+     * para movimento de uma peça já posicionada no tabuleiro.
+     * */
+    private void cellClickHandler(int row, int col) {
     	if (!controller) //Ação realizada quando é uma adição de nova peça
     	{
     		this.p.setPosicaoOrigemX(row);
 			this.p.setPosicaoOrigemY(col);
 			t.setPeca(p);
 			updateChessBoard();
-			t.imprimirTabuleiro();
-			controller = true;    	
-			canMakeMovement = false;
+			controller = true;  
     	}//Ação que será realizada quando é movimentação de uma peça já disponível no tabuleiro
     	else {
     		if (!canMakeMovement)
     		{
     			this.p = t.getMatrizPosicao(row, col);
-    			
-    			if (this.p instanceof Bispo) System.out.println("Bispo");
-    			else if (this.p instanceof Cavalo) System.out.println("Cavalo");
-    			else System.out.println("Torre");
     			canMakeMovement = true;
     		}else if (canMakeMovement){
-    			if (t.movimentarPeca(row, col, p.id))
-    			{
-    				updateChessBoard();
-    				canMakeMovement = false;
-    			}
-                else {
-                	JOptionPane.showMessageDialog(null, "Movimento Inválido!", "ERRO", JOptionPane.ERROR_MESSAGE);
-                	updateChessBoard();
-                	canMakeMovement = false;
-                }
-    			t.imprimirTabuleiro();
+    			if (!t.movimentarPeca(row, col, p.id))
+    				JOptionPane.showMessageDialog(null, "Movimento Inválido!", "ERRO", JOptionPane.ERROR_MESSAGE);
+    			updateChessBoard();
+    			canMakeMovement = false;
     		}
     		
     	}
     }
     
+    /** @brief Desenha novamente o tabuleiro e as peças capturadas*/
     public void updateChessBoard()
     {
     	preencheCapturadasPretas();
@@ -307,6 +308,9 @@ public class ChessFrame extends javax.swing.JFrame {
     	preencheCapturadasBrancas();    	
     }
     
+    /**
+     * @return O icone correspondente a uma peça (por tipo e cor)
+     * */
     public ImageIcon generateChessIcon(Peca p)
     {
     	ImageIcon originalIcon;
@@ -338,9 +342,6 @@ public class ChessFrame extends javax.swing.JFrame {
     
     private void drawChessBoard() {
         Tabuleiro.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
-        // Adicionar labels vazios para a primeira célula
-      
-       
         // Adicionar linhas do tabuleiro
         for (int row = 0; row < 8; row++) {
            
@@ -362,7 +363,7 @@ public class ChessFrame extends javax.swing.JFrame {
                 	@Override
                 	public void mouseClicked(MouseEvent e)
                 	{
-                		cellClickHandller(x, y);
+                		cellClickHandler(x, y);
                 	}
                 });
                 
@@ -374,18 +375,11 @@ public class ChessFrame extends javax.swing.JFrame {
        Tabuleiro.repaint();
     }
 
-    
      private void PreencheLetras() {
         Letras.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
-        // Adicionar labels vazios para a primeira célula
-      
-       
         // Adicionar linhas do tabuleiro
-       
-           
               for (char col = 'A'; col <= 'H'; col++) {
                 JLabel cell = new JLabel("", SwingConstants.CENTER);
-                //cell.setBorder(BorderFactory.createLineBorder(Color.GRAY));
                 cell.setText(String.valueOf(col));
                 cell.setForeground(Color.BLACK);
                 cell.setOpaque(true);
@@ -429,15 +423,9 @@ public class ChessFrame extends javax.swing.JFrame {
 
       private void PreencheNumeros() {
         Numericas.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
-        // Adicionar labels vazios para a primeira célula
-      
-       
         // Adicionar linhas do tabuleiro
-       
-           
               for (int row = 1; row <= 8; row++) {
                 JLabel cell = new JLabel("", SwingConstants.CENTER);
-                //cell.setBorder(BorderFactory.createLineBorder(Color.GRAY));
                 cell.setText(String.valueOf(row));
                 cell.setForeground(Color.BLACK);
                 cell.setOpaque(true);
@@ -473,18 +461,6 @@ public class ChessFrame extends javax.swing.JFrame {
         MenuIcon = new ImageIcon(scaledImage);
         Sair.setIcon(MenuIcon);
     }
-      
-      
-    /*ImageIcon originalIcon = new ImageIcon("C:\Users\Maria Clara\Documents\Chess_img\Bispo.png");  
-    Image originalImage = originalIcon.getImage();
-    Image scaledImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);  
-    ImageIcon BispoIcon = new ImageIcon(scaledImage);
-    label.setIcon(BispoIcon);*/
-      
-      
-      
-      
-      
     
     /**
      * @param args the command line arguments
@@ -522,8 +498,6 @@ public class ChessFrame extends javax.swing.JFrame {
     }
     
     
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBispo;
     private javax.swing.JButton AddCavalo;

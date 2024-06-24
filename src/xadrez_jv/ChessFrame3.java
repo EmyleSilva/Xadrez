@@ -4,19 +4,18 @@
  */
 package xadrez_jv;
 
-import java.awt.Color;
 import java.awt.Image;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 /**
  *
  * @author Maria Clara
  */
 public class ChessFrame3 extends javax.swing.JFrame {
-
+	/**
+	 * @brief CLASSE PARA O MENU PRINCIPAL
+	 * */
+	
     /**
      * Creates new form ChessFrame
      */
@@ -138,18 +137,6 @@ public class ChessFrame3 extends javax.swing.JFrame {
         ChessFrame2.main(null);
     }//GEN-LAST:event_ExplicavelActionPerformed
 
-    
-     
-    
-    /*ImageIcon originalIcon = new ImageIcon("C:\Users\Maria Clara\Documents\Chess_img\Bispo.png");  
-    Image originalImage = originalIcon.getImage();
-    Image scaledImage = originalImage.getScaledInstance(30, 30, Image.SCALE_SMOOTH);  
-    ImageIcon BispoIcon = new ImageIcon(scaledImage);
-    label.setIcon(BispoIcon);*/
-      
-      
-      
-      
       private void PreencheMenu(){
         ImageIcon originalIcon = new ImageIcon(getClass().getResource("/Chess_img/Teste.png"));  
         Image originalImage = originalIcon.getImage();
@@ -196,9 +183,6 @@ public class ChessFrame3 extends javax.swing.JFrame {
         });
     }
     
-    
-     
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Capa;
     private javax.swing.JPanel CapturadasBrancas1;

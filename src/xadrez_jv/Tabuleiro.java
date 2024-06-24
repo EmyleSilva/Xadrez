@@ -5,11 +5,15 @@ import java.util.ArrayList;
 public class Tabuleiro {
 	private Peca[][] matrizPosicao; 
 	private ArrayList<Peca> pecas;
+	private ArrayList<Peca> capturadasBrancas;
+	private ArrayList<Peca> capturadasPretas;
 	
 	Tabuleiro()
 	{
 		this.matrizPosicao = new Peca[8][8];
 		this.pecas = new ArrayList<>();
+		this.capturadasBrancas = new ArrayList<>();
+		this.capturadasPretas = new ArrayList<>();
 	}
 	
 	public Peca getMatrizPosicao(int posicaoX, int posicaoY) {
@@ -42,6 +46,8 @@ public class Tabuleiro {
 			return false;
 		
 		pecaDestino.mudarEstado();
+		if (pecaDestino.cor == "Branco") this.capturadasBrancas.add(pecaDestino);
+		else this.capturadasPretas.add(pecaDestino);
 		return true;
 	}
 	
@@ -79,7 +85,7 @@ public class Tabuleiro {
 		}
 	}
 	
-	/*public String verificaTipo(Peca peca)
+	public String verificaTipo(Peca peca)
 	{
 		if (peca == null)
 			return "  ";
@@ -134,7 +140,7 @@ public class Tabuleiro {
 		System.out.println();
 	}		
 	
-	public static void main(String args[])
+	/*public static void main(String args[])
 	{
 		Tabuleiro t = new Tabuleiro();
 		Peca b = new Bispo(0,0,0);

@@ -266,7 +266,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
     /**
      * @brief Simula a movimentação de uma peça 
      * */
-    public void simulateMoviment(Peca p, int[] destinos) {
+    public void simulateMovement(Peca p, int[] destinos) {
     	/** Variaveis declaradas como final para uso dentro do escopo do 'timer'
     	 * Necessária a implemetação do vetor para que os valores pudessem ser alterados.
     	 * */
@@ -317,7 +317,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
         if (response == JOptionPane.OK_OPTION)
         {            
         	int[] destinos = {7, 7, 5, 5, 7, 3};
-            simulateMoviment(p, destinos);
+            simulateMovement(p, destinos);
         }
     }//GEN-LAST:event_AddBispoActionPerformed
 
@@ -333,7 +333,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
        if (response == JOptionPane.OK_OPTION)
        {            
     	   int[] destinos = {5, 0, 3, 0, 3, 3};
-           simulateMoviment(p, destinos);
+           simulateMovement(p, destinos);
        }
     	
     }//GEN-LAST:event_AddTorreActionPerformed
@@ -350,7 +350,7 @@ public class ChessFrame2 extends javax.swing.JFrame {
         if (response == JOptionPane.OK_OPTION)
         {            
      	   int[] destinos = {1, 2, 3, 1, 5, 2};
-            simulateMoviment(p, destinos);
+            simulateMovement(p, destinos);
         }
     }//GEN-LAST:event_AddCavaloActionPerformed
 

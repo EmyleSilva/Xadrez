@@ -27,6 +27,14 @@ public abstract class Peca implements IExplicavel{
 	public int getPosicaoOrigemY() {
 		return this.posicaoOrigemY;
 	}
+	
+	public void setPosicaoOrigemX(int posicaoOrigemX) {
+		this.posicaoOrigemX = this.posicaoAtualX = posicaoOrigemX;
+	}
+
+	public void setPosicaoOrigemY(int posicaoOrigemY) {
+		this.posicaoOrigemY = this.posicaoAtualY = posicaoOrigemY;
+	}
 
 	public int getPosicaoAtualX() {
 		return this.posicaoAtualX;

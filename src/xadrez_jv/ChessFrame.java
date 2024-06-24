@@ -9,14 +9,21 @@ import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 /** MODO SIMULAÇÃO */
 /**
  *
  * @author Maria Clara
  */
 public class ChessFrame extends javax.swing.JFrame {
-
+	private static Tabuleiro t = new Tabuleiro();
+	//private JLabel[][] cells = new JLabel[8][8]; // Usado para auxilixar na manipulção de cliques nas casas do tabuleiro
+    private boolean controller = false; //Usada na verificação de tipo de clique no tabuleiro (se é adição ou movimentação de peças)
+	private static boolean canMakeMovement = false;
+	private Peca p;
     /**
      * Creates new form ChessFrame
      */
@@ -213,22 +220,113 @@ public class ChessFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddBispoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBispoActionPerformed
-        // TODO add your handling code here:
+        int colorIndex = selectColorAndShowMessage("Selecione a cor da peça e depois clique na casa em que deseja\nposicionar o Bispo");
+        this.p = new Bispo(0, 0, colorIndex);
+        this.controller = false;
     }//GEN-LAST:event_AddBispoActionPerformed
 
     private void AddTorreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddTorreActionPerformed
-        // TODO add your handling code here:
+    	int colorIndex = selectColorAndShowMessage("Selecione a cor da peça e depois clique na casa em que deseja\nposicionar a Torre");
+        this.p = new Torre(0, 0, colorIndex);
+        this.controller = false;
     }//GEN-LAST:event_AddTorreActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dispose();
-        ChessFrame3.main(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void AddCavaloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddCavaloActionPerformed
-        // TODO add your handling code here:
+    	
+    	int colorIndex = selectColorAndShowMessage("Selecione a cor da peça e depois clique na casa em que deseja\nposicionar o Cavalo");
+        this.p = new Cavalo(0, 0, colorIndex);
+        this.controller = false;
     }//GEN-LAST:event_AddCavaloActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        t.limparTabuleiro();
+    	dispose();
+        ChessFrame3.main(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private int selectColorAndShowMessage(String message)
+    {
+    	String[] colors = {"Branco", "Preto"};
+        
+        int colorIndex = JOptionPane.showOptionDialog(
+                null,
+                message,
+                "Selecione a cor",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colors,
+                colors[0]
+        );
+        
+        return colorIndex;
+    }
+    
+    private void cellClickHandller(int row, int col) {
+    	if (!controller) //Ação realizada quando é uma adição de nova peça
+    	{
+    		this.p.setPosicaoOrigemX(row);
+			this.p.setPosicaoOrigemY(col);
+			t.setPeca(p);
+			drawChessBoard();
+			t.imprimirTabuleiro();
+			controller = true;    	
+			canMakeMovement = false;
+    	}//Ação que será realizada quando é movimentação de uma peça já disponível no tabuleiro
+    	else {
+    		if (!canMakeMovement)
+    		{
+    			this.p = t.getMatrizPosicao(row, col);
+    			
+    			if (this.p instanceof Bispo) System.out.println("Bispo");
+    			else if (this.p instanceof Cavalo) System.out.println("Cavalo");
+    			else System.out.println("Torre");
+    			canMakeMovement = true;
+    		}else if (canMakeMovement){
+    			if (t.movimentarPeca(row, col, p.id))
+    			{
+    				drawChessBoard();
+    				canMakeMovement = false;
+    			}
+                else {
+                	JOptionPane.showMessageDialog(null, "Movimento Inválido!", "ERRO", JOptionPane.ERROR_MESSAGE);
+                	drawChessBoard();
+                	canMakeMovement = false;
+                }
+    			t.imprimirTabuleiro();
+    		}
+    		
+    	}
+    }
+    
+    public ImageIcon generateChessIcon(Peca p)
+    {
+    	ImageIcon originalIcon;
+    	Image originalImage;
+    	Image scaledImage;
+    	ImageIcon chessIcon;
+    	String path;
+    	if (p instanceof Bispo) {
+    		path = (p.getCor() == "Branco") ? "/Chess_img/BispoBranco.png" : "/Chess_img/BispoPreto.png";
+	    	originalIcon = new ImageIcon(getClass().getResource(path));  
+	        originalImage = originalIcon.getImage();
+	        scaledImage = originalImage.getScaledInstance(70, 80, Image.SCALE_SMOOTH);  
+	        chessIcon = new ImageIcon(scaledImage);
+    	}else if (p instanceof Cavalo) {
+    		path = (p.getCor() == "Branco") ? "/Chess_img/CavaloBranco.png" : "/Chess_img/CavaloPreto.png";
+    		originalIcon = new ImageIcon(getClass().getResource(path)); 
+            originalImage = originalIcon.getImage();
+            scaledImage = originalImage.getScaledInstance(70, 80, Image.SCALE_SMOOTH);  
+            chessIcon = new ImageIcon(scaledImage);
+    	}else {
+    		path = (p.getCor() == "Branco") ? "/Chess_img/TorreBranca.png" : "/Chess_img/TorrePreta.png";
+    		originalIcon = new ImageIcon(getClass().getResource(path)); 
+            originalImage = originalIcon.getImage();
+            scaledImage = originalImage.getScaledInstance(70, 80, Image.SCALE_SMOOTH);  
+            chessIcon = new ImageIcon(scaledImage);
+    	}
+    	return chessIcon;
+    }
     
     private void drawChessBoard() {
         Tabuleiro.removeAll(); // Limpar o painel antes de desenhar o tabuleiro
@@ -247,7 +345,21 @@ public class ChessFrame extends javax.swing.JFrame {
                 else
                     cell.setBackground(Color.BLACK);
                 cell.setOpaque(true);
+                if (!t.isEmpty(row, col))
+                	cell.setIcon(generateChessIcon(t.getMatrizPosicao(row, col)));
+                              	
+                //Cria um Listener para quando a casa é clicada
+                final int x = row, y = col;
+                cell.addMouseListener(new MouseAdapter() {
+                	@Override
+                	public void mouseClicked(MouseEvent e)
+                	{
+                		cellClickHandller(x, y);
+                	}
+                });
+                
                 Tabuleiro.add(cell);
+                
             }
         }
         Tabuleiro.revalidate();

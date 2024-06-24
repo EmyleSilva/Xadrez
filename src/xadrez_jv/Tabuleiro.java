@@ -24,6 +24,14 @@ public class Tabuleiro {
 		return pecas;
 	}
 	
+	public ArrayList<Peca> getCapturadasBrancas() {
+		return capturadasBrancas;
+	}
+	
+	public ArrayList<Peca> getCapturadasPretas() {
+		return capturadasPretas;
+	}
+	
 	public void setPecas(ArrayList<Peca> pecas) {
 		this.pecas = pecas;
 	}

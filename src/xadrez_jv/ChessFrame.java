@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 /** MODO SIMULAÇÃO */
 /**
  *
@@ -268,7 +269,7 @@ public class ChessFrame extends javax.swing.JFrame {
     		this.p.setPosicaoOrigemX(row);
 			this.p.setPosicaoOrigemY(col);
 			t.setPeca(p);
-			drawChessBoard();
+			updateChessBoard();
 			t.imprimirTabuleiro();
 			controller = true;    	
 			canMakeMovement = false;
@@ -285,18 +286,25 @@ public class ChessFrame extends javax.swing.JFrame {
     		}else if (canMakeMovement){
     			if (t.movimentarPeca(row, col, p.id))
     			{
-    				drawChessBoard();
+    				updateChessBoard();
     				canMakeMovement = false;
     			}
                 else {
                 	JOptionPane.showMessageDialog(null, "Movimento Inválido!", "ERRO", JOptionPane.ERROR_MESSAGE);
-                	drawChessBoard();
+                	updateChessBoard();
                 	canMakeMovement = false;
                 }
     			t.imprimirTabuleiro();
     		}
     		
     	}
+    }
+    
+    public void updateChessBoard()
+    {
+    	preencheCapturadasPretas();
+    	drawChessBoard();
+    	preencheCapturadasBrancas();    	
     }
     
     public ImageIcon generateChessIcon(Peca p)
@@ -386,6 +394,38 @@ public class ChessFrame extends javax.swing.JFrame {
        Letras.revalidate();
        Letras.repaint();
     }
+     
+     private void preencheCapturadasBrancas() {
+    	 CapturadasBrancas.removeAll();
+    	 
+    	 ArrayList<Peca> capturadasBrancas = t.getCapturadasBrancas();
+    	 for (int col = 0; col < capturadasBrancas.size(); col++)
+    	 {
+    		 JLabel cell = new JLabel("", SwingConstants.CENTER);
+             cell.setForeground(Color.BLACK);
+    		 cell.setIcon(generateChessIcon(capturadasBrancas.get(col)));
+    		 cell.setOpaque(true);
+    		 CapturadasBrancas.add(cell);
+    	 }
+    	 CapturadasBrancas.revalidate();
+    	 CapturadasBrancas.repaint();
+     }
+     
+     private void preencheCapturadasPretas() {
+    	 CapturadasPretas.removeAll();
+    	 
+    	 ArrayList<Peca> capturadasPretas = t.getCapturadasPretas();
+    	 for (int col = 0; col < capturadasPretas.size(); col++)
+    	 {
+    		 JLabel cell = new JLabel("", SwingConstants.CENTER);
+    		 cell.setForeground(Color.WHITE);
+    		 cell.setIcon(generateChessIcon(capturadasPretas.get(col)));
+    		 cell.setOpaque(true);
+    		 CapturadasPretas.add(cell);
+    	 }
+    	 CapturadasPretas.revalidate();
+    	 CapturadasPretas.repaint();
+     }
 
       private void PreencheNumeros() {
         Numericas.removeAll(); // Limpar o painel antes de desenhar o tabuleiro

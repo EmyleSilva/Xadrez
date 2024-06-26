@@ -279,11 +279,14 @@ public class ChessFrame extends javax.swing.JFrame {
     private void cellClickHandler(int row, int col) {
     	if (!controller) //Ação realizada quando é uma adição de nova peça
     	{
-    		this.p.setPosicaoOrigemX(row);
-			this.p.setPosicaoOrigemY(col);
-			t.setPeca(p);
-			updateChessBoard();
-			controller = true;  
+    		if (this.p != null) {
+    			this.p.setPosicaoOrigemX(row);
+    			this.p.setPosicaoOrigemY(col);
+    			t.setPeca(p);
+    			updateChessBoard();
+    			controller = true;  
+    		}else 
+    			JOptionPane.showMessageDialog(null, "Escolha uma peça no menu para adicionar\nno tabuleiro!", "ERRO", JOptionPane.ERROR_MESSAGE);
     	}//Ação que será realizada quando é movimentação de uma peça já disponível no tabuleiro
     	else {
     		if (!canMakeMovement)
